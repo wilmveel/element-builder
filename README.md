@@ -13,11 +13,14 @@ The data specifies the interface in a declarative way. The data model is a neste
 	"name":"Row",
 	"template":"row",
 	"data" : {
-		value : "test...."
+		"value" : "test...."
 	},
 	"elements" : [
-	
-	]
+		...
+	],
+	"constraints" : {
+		...
+	}
 }
 ```
 
@@ -26,7 +29,17 @@ The data specifies the interface in a declarative way. The data model is a neste
 - template: the template is an reference to the partial that is used to render the html.
 - data: the data is injected in the view during the rendering.
 - elements: contains the child elements this are renderd in the placholder specified in the template else the are placed under the element.
+- constraints: Not implemented yet but describes which elements can be nested into each other.
 
 Templates
 ------------------
-Templates are small html file which represents the presentation of the element. A template contains 
+Templates are small html file which represents the presentation of the element. A template can be injected with the parameters availible in the data part of the model. Where the data should be inculded is specified with double curly braces. With the element-inculde tag can be specified where the child elements should be included in the view. Below an example of an templates which represents a bootratrap panel.
+
+```html
+<div class="panel panel-{{color}}">
+	<div class="panel-heading" >{{title}}</div>
+	<div class="panel-body">
+		<element-include />
+	</div>
+</div>
+```
