@@ -1,4 +1,4 @@
-elementModule.directive('element', function ($compile, $http, elementService) {
+elementModule.directive('element', function ($compile, $http) {
 
 	return {
 		restrict: 'E',
@@ -10,11 +10,17 @@ elementModule.directive('element', function ($compile, $http, elementService) {
 			
 			console.log("Init element", scope.value);
 			
+			// set element class
+			iElement.addClass("element");
+			if(scope.selected){
+				iElement.addClass("selected");
+			}
+			
 			//Set some attributes of the value. should be latere replaced by loop
 			scope.reload = function(){
-				for (var key in scope.value) {
-				  if (scope.value.hasOwnProperty(key)) {
-					scope[key] = scope.value[key];
+				for (var key in scope.value.data) {
+				  if (scope.value.data.hasOwnProperty(key)) {
+					scope[key] = scope.value.data[key];
 				  }
 				}
 			}
@@ -42,22 +48,23 @@ elementModule.directive('element', function ($compile, $http, elementService) {
 					drag.addClass("drag-top");
 				}
 				
-				// Plop is the name of the element wich is visible when selected
-				var plop = $("<div>{{id}}:{{template}}:{{name}}</div>");
+				// Plop is box with the id and name of the element which is visible when selected
+				var plop = $("<div>" + scope.value.id + ":" + scope.value.name + "</div>");
 				plop.addClass("plop");
 				plop.attr("ng-show", "selected");
 				drag.append(plop);
 				
-				// Border is inside te element to indicate that it is selected
+				// Border is inside the element to indicate that it is selected
 				var border = $("<div/>");
 				border.addClass("border");
+				border.attr("ng-show", "selected");
 				drag.append(border);
 				
 				// Drop area only active when an item is draged 
 				var drop = $("<div />");
 				drop.addClass("drop");
-				border.attr("ng-show", "selected");
-				border.attr("element-drop", "true");
+				drop.attr("ng-show", "selected");
+				drop.attr("element-drop", "true");
 				drag.append(drop);
 				
 				// Add and compile elements

@@ -4,45 +4,48 @@ elementModule.controller('elementController', function($scope, elementService) {
 	
 	// Select the element to drag
 	$scope.select = function($event){
-		
-		console.log("Selected clicked");
+		console.log("Selected clicked", $event, elementService.dragActive);
 		
 		$event.stopPropagation();
 		
-		var parent = $scope;
-		var selected = null;
-		
-		while(parent != null){
+		// Click only works when drag is not active 
+		if(!elementService.dragActive){
+			var parent = $scope;
+			var selected = null;
+			
+			while(parent != null){
 
-			console.log("Loop selected", parent, parent.selected);
-			
-			if(parent.selected){
-				selected = parent;
+				//console.log("Loop selected", parent, parent.selected);
+				
+				if(parent.selected){
+					selected = parent;
+				}
+				
+				if(selected && selected != parent && parent.value){
+					selected.selected = false;
+					parent.$parent.$broadcast("deselect");
+					parent.$parent.selected = true;
+					selected = parent;
+					return;
+				}
+				
+				parent = parent.$parent;
+				
 			}
 			
-			if(selected && selected != parent && parent.value){
+			if(selected){
 				selected.selected = false;
-				parent.$parent.$broadcast("deselect");
-				parent.$parent.selected = true;
-				selected = parent;
-				return;
+			}else{
+				console.log("Set true");
+				$scope.$broadcast("deselect");
+				$scope.selected = true;		
 			}
-			
-			parent = parent.$parent;
-			
-		}
-		
-		if(selected){
-			selected.selected = false;
 		}else{
-			console.log("Set true");
-			$scope.$broadcast("deselect");
-			$scope.selected = true;	
+			elementService.dragActive = false;
 		}
-		
 	};
 	
-	// Element transmormation actions
+	// Element transformation actions
 	$scope.switchElement = function(dragEl,dropEl){
 		console.log("switchElement", "dragEl", dragEl, "dropEl", dropEl);
 		elementService.switchElement(dragEl, dropEl);

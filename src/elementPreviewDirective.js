@@ -24,7 +24,6 @@ elementModule.directive('elementPreview', function ($compile, $http, elementServ
 		
 		for (var i=0;i<elements.length;i++){
  			element = elements[i];
-			console.log("Loop", element, elements.length);
 			var template;
 			
 			// get template

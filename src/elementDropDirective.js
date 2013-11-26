@@ -14,6 +14,8 @@ elementModule.directive('elementDrop', function ($compile, $http, elementService
 					iElement.droppable({
 						disabled: false,
 						drop:function(event,ui) {
+						
+							console.log("Drop element", scope.value); 
 							
 							// Set drop element
 							elementService.dropElement = scope.value;
@@ -24,18 +26,17 @@ elementModule.directive('elementDrop', function ($compile, $http, elementService
 							console.log("dragElement Value", dragElement);  
 							console.log("dropElement Value",  scope.value);  
 							
-							if(dragElement.id){
+							if(dragElement.uid){
 								scope.switchElement(dragElement, dropElement);
 								scope.$emit("element-move", dragElement, dropElement);
 							}else{
 								var dragElement = angular.copy(dragElement);
-								dragElement.id = Math.floor((Math.random()*100000000000000000000000000)+1);
 								scope.addElement(dragElement, dropElement);
 								scope.$emit("element-add", elementService.dragElement, dropElement);
 							}
 														
 							angular.element(this).removeClass("drop-active");
-
+														
 							scope.$apply();
 						},
 						

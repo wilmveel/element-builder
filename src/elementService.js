@@ -1,83 +1,16 @@
-elementModule.service('elementService', function($http, $q) {
+elementModule.service('elementService', function($http, $rootScope) {
 	
+	// Array of elements
+	this.elements = new Array();
+		
+	// the element that is current draged
 	this.dragElement;
-	this.dropElement;
 	
-	this.elements = [
-		{
-			"id" : 1,
-			"name":"Row",
-			"template":"row",
-			"elements" : [
-				{
-					"id" : 3,
-					"name" : "Column",
-					"columns" : 4,
-					"template":"column",
-					"elements": [
-						{
-							"id" : 42,
-							"name" : "Panel",
-							"template":"panel",
-							"title" : "Panel",
-							"color" : "default",
-							"elements": [
-								{
-									"id" : 42,
-									"name" : "Text",
-									"template":"input",
-									"label" : "Last Name",
-									"placeholder" : "Last Name",
-									"ngmodel" : ""
-								},
-								{
-									"id" : 43,
-									"name" : "Text",
-									"template":"input",
-									"placeholder":"input",
-									"label" : "Email"
-								},
-								{
-									"id" : 44,
-									"name" : "Button",
-									"template":"button",
-									"label" : "Click Me",
-									"ngclick" : "info()"
-								}
-							]
-						}
-					]
-				},
-				{
-					"id" : 2,
-					"name" : "Column",
-					"columns" : 8,
-					"template":"column"
-				}
-			]
-		},
-		{
-			"id" : 7,
-			"name":"test4",
-			"template":"row",
-			"elements": [
-				{
-					"id" : 8,
-					"name" : "Column",
-					"columns" : 6,
-					"template":"column",
-					"elements": [
-						{
-							"id" : 9,
-							"name" : "Text",
-							"template":"text",
-							"text" : "This is a normal text element"
-						}
-					]
-				}
-			]
-		}
-	];
+	// the element that is current droped
+	this.dropElement;
+		
+	// true when any element is draged
+	this.dragActive = false;
 
 	this.switchElement = function(dragElement, dropElement) {
 		this.dragElement = dragElement;
@@ -91,6 +24,8 @@ elementModule.service('elementService', function($http, $q) {
 		// Switch positions
 		dragElementFound.data[dragElementFound.i] = dropElement;
 		dropElementFound.data[dropElementFound.i] = dragElement;
+		
+		$rootScope.$broadcast("element-update");
 	};
 	
 	this.removeElement = function(dragElement) {
@@ -99,11 +34,16 @@ elementModule.service('elementService', function($http, $q) {
 		var dragElementFound = this.findElement(this.elements, dragElement);
 		
 		dragElementFound.data.splice(dragElementFound.i, 1);
+		
+		$rootScope.$broadcast("element-update");
 	}
 	
 	this.addElement = function(dragElement, dropElement) {
 		this.dragElement = dragElement;
 		this.dropElement = dropElement;
+		
+		// genarete id for new element
+		dragElement = generateid(dragElement);
 		
 		// Find drop element
 		var dropElementFound = this.findElement(this.elements, dropElement);
@@ -114,6 +54,8 @@ elementModule.service('elementService', function($http, $q) {
 		
 		dropElementFound.data[dropElementFound.i].elements.push(dragElement);
 		console.log("AddElement", dragElement, dropElementFound.data[dropElementFound.i]);
+		
+		$rootScope.$broadcast("element-update");
 	}
 	
 	this.replaceElement = function(dragElement) {
@@ -124,6 +66,8 @@ elementModule.service('elementService', function($http, $q) {
 		
 		dragElementFound.data[dragElementFound.i] = dragElement;
 		console.log("replaceElement", dragElement, dragElementFound.data[dragElementFound.i]);
+		
+		$rootScope.$broadcast("element-update");
 	}
 	
 	this.findElement = function(elements, elment) {
@@ -143,4 +87,22 @@ elementModule.service('elementService', function($http, $q) {
 		}
 	};
 	
+	generateid = function(element){
+		
+		// generate unique id for new element
+		var uniqid = Date.now();
+		element.id = uniqid;
+		
+		console.log("Log id", element.id);
+		
+		if(element.elements instanceof Array){
+			for(var i=0; i < element.elements.length; i++){
+				element.elements[i] = generateid(element.elements[i]);
+			}
+		}
+		
+		return element;
+		
+	};
+		
 });

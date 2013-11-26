@@ -43,3 +43,17 @@ Templates are small html file which represents the presentation of the element. 
 	</div>
 </div>
 ```
+
+Events
+------------------
+There are a couple of events that are trigger in the library. These events can be used in controllers to. The events broadcast always two parameters the dragElement and the dropElement.
+
+-element-add: This event is triggered when a new event is droped into the model.
+-element-edit: Triggered when a element is dropped into the edit area.
+-element-update: This event is triggered when the model is updated.
+
+Listeners
+------------------
+The listeners can be used from outside the library. 
+
+-deselect: deselects all elements in the model.

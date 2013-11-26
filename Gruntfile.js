@@ -7,9 +7,6 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
 	
 	concat: {
-		'dest/test.js': ['app/elementApp.js', 'app/elementController.js']
-	},
-	concat: {
 		options: {
 			// define a string to put between each file in the concatenated output
 			//separator: ';'
