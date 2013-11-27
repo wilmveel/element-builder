@@ -1,4 +1,4 @@
-elementModule.directive('elementPreview', function ($compile, $http, elementService) {
+elementModule.directive('elementViewPreview', function ($compile, $http, elementService) {
     return {
         restrict: 'E',
 		scope: { value: '=' },
@@ -36,9 +36,9 @@ elementModule.directive('elementPreview', function ($compile, $http, elementServ
 			});
 			
 			// replace variables
-			for (var key in element) {
-			  if (element.hasOwnProperty(key)) {
-				template = template.replace('{{' + key + '}}', element[key]);
+			for (var key in element.data) {
+			  if (element.data.hasOwnProperty(key)) {
+				template = template.replace('{{' + key + '}}', element.data[key]);
 			  }
 			}
 			

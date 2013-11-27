@@ -6,7 +6,7 @@ elementModule.directive('elementDrop', function ($compile, $http, elementService
 		// watch drag and drop behavoure change when selected is changed
 		scope.$watch('selected', function(newValue, oldValue) {
 			
-			console.log("I element is selected in elementDrag", scope.value);
+			//console.log("I element is selected in elementDrag", scope.value);
 		
 			//make dropable when selected
 			if(newValue){
@@ -14,19 +14,16 @@ elementModule.directive('elementDrop', function ($compile, $http, elementService
 					iElement.droppable({
 						disabled: false,
 						drop:function(event,ui) {
-						
-							console.log("Drop element", scope.value); 
-							
+													
 							// Set drop element
 							elementService.dropElement = scope.value;
-							
+
 							var dragElement = elementService.dragElement;
-							var dropElement = scope.value;
+							var dropElement = elementService.dropElement;
 							
-							console.log("dragElement Value", dragElement);  
-							console.log("dropElement Value",  scope.value);  
-							
-							if(dragElement.uid){
+							console.log("dragdrop-drop",  elementService.dragElement, elementService.dropElement); 
+
+							if(dragElement.id){
 								scope.switchElement(dragElement, dropElement);
 								scope.$emit("element-move", dragElement, dropElement);
 							}else{
@@ -42,13 +39,17 @@ elementModule.directive('elementDrop', function ($compile, $http, elementService
 						
 						over:function(event,ui) {
 							angular.element(this).addClass("drop-active");
-							console.log("Enter drop area", scope.value); 
+
+							console.log("dragdrop-over", elementService.dragElement, elementService.dropElement); 
+							
 							scope.$apply();
 						},
 						
 						out:function(event,ui) {
 							angular.element(this).removeClass("drop-active");
-							console.log("Exit drop area", scope.value); 
+							
+							console.log("dragdrop-out", elementService.dragElement, elementService.dropElement); 
+							
 							scope.$apply();
 						}
 					  });

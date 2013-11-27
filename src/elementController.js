@@ -15,20 +15,20 @@ elementModule.controller('elementController', function($scope, elementService) {
 			
 			while(parent != null){
 
-				//console.log("Loop selected", parent, parent.selected);
-				
+				console.log("Loop elements: ", parent );
+			
 				if(parent.selected){
 					selected = parent;
 				}
 				
 				if(selected && selected != parent && parent.value){
 					selected.selected = false;
-					parent.$parent.$broadcast("deselect");
+					parent.$broadcast("deselect");
 					parent.$parent.selected = true;
 					selected = parent;
 					return;
 				}
-				
+
 				parent = parent.$parent;
 				
 			}

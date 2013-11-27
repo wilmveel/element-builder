@@ -12,6 +12,7 @@ The data specifies the interface in a declarative way. The data model is a neste
 	"id" : 1,
 	"name":"Row",
 	"template":"row",
+	"border" : false,
 	"data" : {
 		"value" : "test...."
 	},
@@ -27,6 +28,7 @@ The data specifies the interface in a declarative way. The data model is a neste
 - id: an unique id which is used to identify object in the model when they are modified or moved.
 - name: every element has a name which is used to represent the objects.
 - template: the template is an reference to the partial that is used to render the html.
+- border: for elements that are nog visible like a form an extra border is rendered in the element. This can be true/false or a color name.
 - data: the data is injected in the view during the rendering.
 - elements: contains the child elements this are renderd in the placholder specified in the template else the are placed under the element.
 - constraints: Not implemented yet but describes which elements can be nested into each other.

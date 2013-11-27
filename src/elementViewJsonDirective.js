@@ -1,4 +1,4 @@
-elementModule.directive('elementJson', function ($compile) {
+elementModule.directive('elementViewJson', function ($compile) {
     return {
         restrict: 'E',
         scope: { val: '=' },
