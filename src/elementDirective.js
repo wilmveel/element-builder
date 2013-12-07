@@ -99,7 +99,7 @@ elementModule.directive('element', function ($compile, $http, elementService) {
 						border.addClass("border");
 						attributes.append(border);
 						
-						element.append(attributes);						
+						element.html(attributes);						
 						element.append(template);
 						
 						
