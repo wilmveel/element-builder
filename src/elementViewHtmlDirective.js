@@ -22,7 +22,6 @@ elementModule.directive('elementViewHtml', function ($compile, $http) {
 		
 		for (var i=0;i<elements.length;i++){
  			element = elements[i];
-			console.log("Loop", element, elements.length);
 			var template;
 			
 			// get template
@@ -34,19 +33,45 @@ elementModule.directive('elementViewHtml', function ($compile, $http) {
 				async:false
 			});
 			
-			// replace variables
+			// replace data variables
+			template = template.replace('{{id}}', element.id);
+			template = template.replace('{{name}}', element.name);
 			for (var key in element.data) {
 			  if (element.data.hasOwnProperty(key)) {
-				template = template.replace('{{' + key + '}}', element.data[key]);
+				template = template.replace('{{data.' + key + '}}', element.data[key]);
 			  }
+			}
+			
+			// inject angular variables
+			template = $(template);
+			if(element.angular){
+				template.find("[ng-bind]").attr("ng-bind", element.angular.bind);
+				template.find("[ng-model]").attr("ng-model", element.angular.model);
+				template.find("[ng-click]").attr("ng-click", element.angular.click);
+			}
+			
+			// inject validation variables
+			console.log("Pietertje", element);
+			if(element.validation){
+				angular.forEach(element.validation, function(value, key){
+					console.log("Add validator preview", value, key);
+					key = key.replace(/[A-Z]/g, function(ch){return "-" + ch.toLowerCase()});
+					if(value.value){
+						template.find("[element-validate]").attr(key, value.value);
+					}else{
+						template.find("[element-validate]").attr(key, true);
+					}
+				});
+				template.find("[element-validate]").removeAttr("element-validate");
 			}
 			
 			if(element.elements){
 				var child = renderElement (element.elements);
-				
-				template = template.replace('<element-include />', child);
-				
+				template.find('element-include').replaceWith(child);
 			}
+			
+			template = template.prop('outerHTML');
+			console.log(template);
 			
 			html += template;
 			

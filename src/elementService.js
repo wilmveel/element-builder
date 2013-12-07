@@ -3,13 +3,14 @@ elementModule.service('elementService', function($http, $rootScope) {
 	// Array of elements
 	this.elements = new Array();
 		
-	// the element that is current draged
-	this.dragElement;
+	// Element in focus for editing
+	this.element;
 	
-	// the element that is current droped
+	// the element that is current draged or droped
+	this.dragElement;
 	this.dropElement;
 		
-	// true when any element is draged
+	// true when drag is active
 	this.dragActive = false;
 
 	this.switchElement = function(dragElement, dropElement) {
@@ -48,12 +49,19 @@ elementModule.service('elementService', function($http, $rootScope) {
 		// Find drop element
 		var dropElementFound = this.findElement(this.elements, dropElement);
 		
-		if(!(dropElementFound.data[dropElementFound.i].elements instanceof Array)){
-			dropElementFound.data[dropElementFound.i].elements = new Array();
-		}
+		// add to element
+		if(dropElementFound){
+			if(!(dropElementFound.data[dropElementFound.i].elements instanceof Array)){
+				dropElementFound.data[dropElementFound.i].elements = new Array();
+			}
+			
+			dropElementFound.data[dropElementFound.i].elements.push(dragElement);
+			console.log("AddElement", dragElement, dropElementFound.data[dropElementFound.i]);
 		
-		dropElementFound.data[dropElementFound.i].elements.push(dragElement);
-		console.log("AddElement", dragElement, dropElementFound.data[dropElementFound.i]);
+		// add to canvas
+		}else{
+			this.elements.push(dragElement);
+		}
 		
 		$rootScope.$broadcast("element-update");
 	}

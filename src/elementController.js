@@ -2,6 +2,20 @@ elementModule.controller('elementController', function($scope, elementService) {
 
 	$scope.selected = false;
 	
+	$scope.getDimension = function(){
+		if($scope.template){
+			var demention = {
+				"width" : $scope.template.outerWidth(),
+				"height" : $scope.template.outerHeight(),
+				"margin" : $scope.template.css("margin"),
+				"top" : $scope.template.position().top,
+				"left" : $scope.template.position().left
+			};
+			console.log("dimension", $scope.template.position(), $scope.value.name, demention);
+			return demention;
+		}
+	}
+	
 	// Select the element to drag
 	$scope.select = function($event){
 		console.log("Selected clicked", $event, elementService.dragActive);
@@ -23,7 +37,7 @@ elementModule.controller('elementController', function($scope, elementService) {
 				
 				if(selected && selected != parent && parent.value){
 					selected.selected = false;
-					parent.$broadcast("deselect");
+					parent.$parent.$broadcast("deselect");
 					parent.$parent.selected = true;
 					selected = parent;
 					return;
@@ -46,25 +60,38 @@ elementModule.controller('elementController', function($scope, elementService) {
 	};
 	
 	// Element transformation actions
-	$scope.switchElement = function(dragEl,dropEl){
-		console.log("switchElement", "dragEl", dragEl, "dropEl", dropEl);
-		elementService.switchElement(dragEl, dropEl);
+	$scope.switchElement = function(dragElement,dropElement){
+		console.log("switchElement");
+		console.log("switchElement", dragElement, dropElement);
+		elementService.switchElement(dragElement, dropElement);
 	}
 	
-	$scope.addElement = function(dragEl,dropEl){
-		console.log("addElement", "dragEl", dragEl, "dropEl", dropEl);
-		elementService.addElement(dragEl, dropEl);
+	$scope.addElement = function(dragElement,dropElement){
+		console.log("addElement");
+		console.log("addElement", dragElement, dropElement);
+		elementService.addElement(dragElement, dropElement);
+		$scope.$emit("element-add", dragElement);
 	}
 	
-	$scope.appendElement = function(dragEl,dropEl){
-		console.log("appendElement", "dragEl", dragEl, "dropEl", dropEl);
-		elementService.appendElement(dragEl, dropEl);
+	$scope.editElement = function($event, dragElement, dropElement){
+		console.log("editElement");
+		$event.stopPropagation();
+		console.log("edit-element", $event, dragElement, dropElement);
+		$scope.$emit("element-edit", dragElement);
+	}
+	
+	$scope.appendElement = function(dragElement,dropElement){
+		console.log("appendElement");
+		console.log("appendElement", "dragElement", dragElement, "dropElement", dropElement);
+		elementService.appendElement(dragElement, dropElement);
 	}
 	
 	$scope.removeElement = function(elm){
-		console.log("RM");
-		$scope.element = elementService.dragElement;
+		console.log("removeElement");
+		$scope.element = elementService.dragElementement;
 		$("#myModal").modal('show');
 	}
+	
+	
 		
 });

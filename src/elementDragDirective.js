@@ -18,7 +18,6 @@ elementModule.directive('elementDrag', function ($compile, $http, elementService
 						start:function(event,ui) {
 							console.log("Start draging", scope.value); 
 							angular.element(this).addClass("drag-active");
-							
 							elementService.dragActive = true;
 							elementService.dragElement = scope.value;
 							console.log("dragdrop-start", elementService.dragElement, elementService.dropElement); 

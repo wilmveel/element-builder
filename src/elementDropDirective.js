@@ -14,7 +14,9 @@ elementModule.directive('elementDrop', function ($compile, $http, elementService
 					iElement.droppable({
 						disabled: false,
 						drop:function(event,ui) {
-													
+							
+							console.log("EVENT",  event, ui); 
+							
 							// Set drop element
 							elementService.dropElement = scope.value;
 
