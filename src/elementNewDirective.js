@@ -20,11 +20,8 @@ elementModule.directive('elementNew', function ($compile, $http, elementService)
 					console.log("Stop draging", scope.value); 
 					angular.element(this).removeClass("drag-active");
 				}
-				
-
-			
-		});
-	  }
+			});
+		}
 	}
 });
 		

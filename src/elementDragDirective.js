@@ -13,6 +13,7 @@ elementModule.directive('elementDrag', function ($compile, $http, elementService
 				if(scope.selected){
 					iElement.draggable({
 						revert:true,
+						revertDuration: 0,
 						disabled: false,
 						cancel:false,
 						start:function(event,ui) {

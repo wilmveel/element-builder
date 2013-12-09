@@ -11,6 +11,10 @@ elementModule.controller('elementController', function($scope, elementService) {
 				"top" : $scope.template.position().top,
 				"left" : $scope.template.position().left
 			};
+			if(demention.width == 0 && demention.height == 0){
+				demention.width = "100%";
+				demention.height = "100%";
+			}
 			console.log("dimension", $scope.template.position(), $scope.value.name, demention);
 			return demention;
 		}

@@ -75,16 +75,20 @@ elementModule.directive('element', function ($compile, $http, elementService) {
 						}
 						
 						template.addClass("template");
-						template.attr("ng-click", "select($event)");
 						scope.template = template;
 						
-						var attributes = $("<div/>");
-						attributes.attr("ng-style", "getDimension()");
-						attributes.attr("element-drag", "true");
-						attributes.attr("element-drop", "true");
-						attributes.attr("ng-show", "selected");
-						attributes.addClass("attributes");
+						var drag = $("<div/>");
+						drag.attr("element-drag", "true");
+						drag.addClass("drag");
 						
+						
+						
+						var drop = $("<div/>");
+						drop.attr("element-drop", "true");
+						drop.attr("ng-style", "getDimension()");
+						drop.addClass("drop");
+						drop.append(drag);
+
 						// Plop is box with the id and name of the element which is visible when selected
 						plop  = "<div class='plop' ng-show='selected'>"
 						plop += "<a href='' ng-click='editElement($event, value)'>";
@@ -92,14 +96,23 @@ elementModule.directive('element', function ($compile, $http, elementService) {
 						plop += "<span class='text'>" + scope.value.template + "</span>";
 						plop += "</a>";
 						plop += "</div>";
-						attributes.append(plop);
+						drag.append(plop);
+						
+						// Mask to cover the element
+						var click = $("<div/>");
+						click.addClass("click");
+						click.attr("ng-click", "select($event)");
+						click.attr("ng-class", "{clicked:selected}");
+						drag.append(click);
 						
 						// Border is inside the element to indicate that it is selected
 						var border = $("<div/>");
+						border.attr("ng-show", "selected");
 						border.addClass("border");
-						attributes.append(border);
+						drag.append(border);
+
 						
-						element.html(attributes);						
+						element.html(drop);						
 						element.append(template);
 						
 						
