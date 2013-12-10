@@ -63,7 +63,7 @@ elementModule.directive('element', function ($compile, $http, elementService) {
 					// get the template and add html tages to enable drag and drop
 					$http.get('element/' + scope.value.template + '.html').success(function(html){
 						
-						console.log("Loaded template: " + scope.value.template);
+						//console.log("Loaded template: " + scope.value.template);
 						
 						template = $(html);
 						

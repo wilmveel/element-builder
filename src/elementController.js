@@ -15,7 +15,7 @@ elementModule.controller('elementController', function($scope, elementService) {
 				demention.width = "100%";
 				demention.height = "100%";
 			}
-			console.log("dimension", $scope.template.position(), $scope.value.name, demention);
+			//console.log("dimension", $scope.template.position(), $scope.value.name, demention);
 			return demention;
 		}
 	}
