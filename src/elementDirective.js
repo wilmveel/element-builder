@@ -5,7 +5,7 @@ elementModule.directive('element', function ($compile, $http, elementService) {
 		scope: {
 			value: '=',
 			render: '='
-		},	
+		},
 		controller: "elementController",
 		link : function(scope, element){
 			
@@ -43,8 +43,6 @@ elementModule.directive('element', function ($compile, $http, elementService) {
 			}else{
 				//Watch data change to update scope with values
 				scope.$watch("value", function(){
-					console.log("value change");
-
 					scope.id = scope.value.id;
 					scope.name = scope.value.name;
 					scope.data = scope.value.data;
@@ -52,12 +50,7 @@ elementModule.directive('element', function ($compile, $http, elementService) {
 					scope.angular = scope.value.angular;
 
 				}, true);
-				
-				scope.$watch("value.angular", function(){
-					console.log("value change");
-					
-				}, true);
-								
+												
 				// Watch template for changes
 				scope.$watch("value.template", function(){
 					// get the template and add html tages to enable drag and drop

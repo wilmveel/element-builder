@@ -2,6 +2,10 @@ elementModule.service('elementService', function($http, $rootScope) {
 	
 	// Array of elements
 	this.elements = new Array();
+	
+	this.getElements = function(){
+		return this.elements;
+	}
 		
 	// Element in focus for editing
 	this.element;

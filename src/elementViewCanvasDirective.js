@@ -8,6 +8,9 @@
 			var template = '<div class="element-view-canvas" element-drop="true" ng-click="select($event)">';
 			template += '<element ng-repeat="element in value" value="element" />';
 			template += '<div class="border" ng-show="selected" ></div>';
+			
+			template += '<div ng-hide="value" class="please">Please Drag Element</div>';
+			
 			template += "<div class='plop' ng-show='selected'>"
 			template += "<span class='text'>Canvas</span>";
 			template += "</div>";

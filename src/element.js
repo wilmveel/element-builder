@@ -22,7 +22,7 @@ function renderTemplate(template, element){
 					template.find("[element-" + attribute + "]").attr(key, value);
 					
 				});
-				template.find("[element-" + attribute + "]").removeAttr("element-" + attribute);
+				template.find("[element-" + attribute + "]").removeAttr("element-" + attribute); 
 				
 			});
 			console.log(template);
